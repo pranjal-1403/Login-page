@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Cool Login & Signup</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Rubik&display=swap');
+  *{box-sizing:border-box;margin:0;padding:0}
+  body {
+    font-family: 'Rubik', sans-serif;
+    background: linear-gradient(135deg,#2e8bff,#006994);
+    color:#e0f0ff;
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:15px;
+    user-select:none;
+  }
+  .box {
+    background:rgba(0 51 102 /0.85);
+    padding:30px 25px 40px;
+    border-radius:16px;
+    max-width:380px;
+    width:100%;
+    box-shadow: 0 8px 20px rgba(0,110,255,.6);
+    position:relative;
+  }
+  h1 {
+    font-weight:700;
+    font-size:2rem;
+    text-align:center;
+    margin-bottom:10px;
+    color:#a0d8ef;
+    user-select:text;
+  }
+  .tagline {
+    text-align:center;
+    margin-bottom:28px;
+    font-style:italic;
+    color:#90caf9b0;
+  }
+  .tabs {
+    display:flex;
+    margin-bottom:30px;
+    border-radius:12px;
+    overflow:hidden;
+    box-shadow: inset 0 0 15px #005fa35c;
+    user-select:none;
+  }
+  button.tab {
+    flex:1;
+    cursor:pointer;
+    border:none;
+    padding:12px 0;
+    font-weight:700;
+    background:#005fa3;
+    color:#cce6ff;
+    transition:background 0.25s ease;
+    outline:none;
+  }
+  button.tab.active {
+    background:#90caf9;
+    color:#012f43;
+    cursor:default;
+  }
+  button.tab:hover:not(.active) {
+    background:#0072ce;
+  }
+  form {
+    display:none;
+    flex-direction:column;
+  }
+  form.active {
+    display:flex;
+  }
+  label {
+    margin-bottom:6px;
+    font-weight:600;
+    font-size:.9rem;
+    color:#90caf9;
+  }
+  input {
+    margin-bottom:20px;
+    padding:12px 16px;
+    border-radius:10px;
+    border:none;
+    font-size:1rem;
+    font-family:'Rubik', sans-serif;
+  }
+  input:focus {
+    outline:2px solid #90caf9;
+    background:#084d8a33;
+  }
+  input::placeholder {
+    font-style:italic;
+    color:#aaccee;
+  }
+  button.submit {
+    padding:14px 0;
+    font-size:1.2rem;
+    font-weight:700;
+    border:none;
+    border-radius:14px;
+    background:#90caf9;
+    color:#012f43;
+    cursor:pointer;
+    box-shadow:0 5px 0 #86bde0;
+    user-select:none;
+    transition:transform 0.15s ease;
+  }
+  button.submit:hover {
+    transform:translateY(-3px);
+    box-shadow:0 8px 10px #6495edaa;
+  }
+  button.submit:active {
+    transform:none;
+    box-shadow:0 4px 0 #86bde0;
+  }
+  .prompt {
+    font-weight:600;
+    font-size:.85rem;
+    height:24px;
+    color:#68b3ff;
+    text-align:center;
+    user-select:text;
+  }
+</style>
+</head>
+<body>
+<div class="box" role="main">
+  <h1>Howdy Cool Cat!</h1>
+  <div class="tagline" aria-live="polite">Log in or sign up for cool vibes</div>
+  <div class="tabs" role="tablist" aria-label="Login and Registration tabs">
+    <button id="btn-login" class="tab active" role="tab" aria-selected="true" tabindex="0" aria-controls="form-login">Login</button>
+    <button id="btn-register" class="tab" role="tab" aria-selected="false" tabindex="-1" aria-controls="form-register">Sign Up</button>
+  </div>
+
+  <form id="form-login" class="active" aria-labelledby="btn-login" aria-hidden="false">
+    <label for="login-user">Email or Username</label>
+    <input id="login-user" name="loginUser" type="text" placeholder="cool.kitty123" autocomplete="username" required aria-required="true" />
+    <label for="login-pass">Secret Key</label>
+    <input id="login-pass" name="loginPass" type="password" placeholder="my secret password" autocomplete="current-password" required aria-required="true" />
+    <button type="submit" class="submit" aria-label="Submit login form">Let's Roll</button>
+    <div class="prompt" aria-live="assertive" aria-atomic="true"></div>
+  </form>
+
+  <form id="form-register" aria-labelledby="btn-register" aria-hidden="true">
+    <label for="register-user">Pick Your Nick</label>
+    <input id="register-user" name="registerUser" type="text" placeholder="UltraCool42" autocomplete="username" required aria-required="true" />
+    <label for="register-mail">Email, Please!</label>
+    <input id="register-mail" name="registerMail" type="email" placeholder="you@awesome.com" autocomplete="email" required aria-required="true" />
+    <label for="register-pass">Make Password</label>
+    <input id="register-pass" name="registerPass" type="password" placeholder="8+ chars of magic" autocomplete="new-password" required aria-required="true" minlength="8" />
+    <button type="submit" class="submit" aria-label="Submit registration form">Cool, Let's Go!</button>
+    <div class="prompt" aria-live="assertive" aria-atomic="true"></div>
+  </form>
+</div>
+<script>
+  const tabs = document.querySelectorAll('.tab'),
+    forms = {login: document.getElementById('form-login'), register: document.getElementById('form-register')},
+    tagline = document.querySelector('.tagline');
+  function activate(tab){
+    tabs.forEach((t,i)=>{
+      const isActive = t===tab;
+      t.classList.toggle('active',isActive);
+      t.setAttribute('aria-selected',isActive);
+      t.tabIndex = isActive ? 0 : -1;
+      forms[ t.id.includes('login') ? 'login': 'register' ].classList.toggle('active',isActive);
+      forms[ t.id.includes('login') ? 'login': 'register' ].setAttribute('aria-hidden', (!isActive).toString());
+    });
+    tagline.textContent=tab.id==='btn-login'?'Log in or sign up for cool vibes':"New? Let's get you onboard!";
+  }
+  tabs.forEach(t=>{
+    t.addEventListener('click',()=>activate(t));
+    t.addEventListener('keydown', e=>{
+      if(e.key==='ArrowLeft' || e.key==='ArrowRight'){
+        e.preventDefault();
+        let idx = [...tabs].indexOf(t), nxt=(e.key==='ArrowRight' ? idx+1 : idx-1 + tabs.length) % tabs.length;
+        tabs[nxt].focus();
+      }
+      if(e.key==='Enter' || e.key===' '){
+        e.preventDefault();
+        activate(t);
+      }
+    });
+  });
+  ['form-login','form-register'].forEach(id=>{
+    const form=document.getElementById(id);
+    const promptEl=form.querySelector('.prompt');
+    form.onsubmit=e=>{
+      e.preventDefault();
+      if(!form.checkValidity()){
+        promptEl.textContent='Oops! Something is missing or wrong.';
+        promptEl.style.color='#ff5555';
+        return;
+      }
+      promptEl.style.color='#88ff88';
+      promptEl.textContent='One moment, processing your coolness...';
+      setTimeout(()=>{
+        promptEl.textContent = id==='form-login' ? 'Success! Welcome back, cool cat!' : 'Awesome! You\'re on board now!';
+        form.reset();
+      },1200);
+    };
+  });
+</script>
+</body>
+</html>
+
